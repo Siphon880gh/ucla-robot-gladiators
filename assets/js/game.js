@@ -15,7 +15,7 @@ class Robot {
 /** <<< Code above are notes */
 
 var playerName = ""; // Will override with user input
-var playerHealth = 1000;
+var playerHealth = oriPlayerHealth = 100; /* Original player health that we reset if player restarts the game */
 var playerAttack = 10;
 var playerMoney = 10;
 
@@ -111,16 +111,26 @@ var fight = function(enemyName, itrRobot) {
         return fight(enemyName); // Recursively fight the same enemy until someone dies
     }
 };
+var firstGame = true;
 
-function playerIsReady() {
+function startGame() {
+    // Reset health on game start or restart
+    playerHealth = oriPlayerHealth;
+    enemyHealth = oriEnemyHealth;
+
+    // If first ever game, ask for player's robot name
+    if(firstGame) {
+        firstGame = false;
+
+        // Ask for robot name
+        while(playerName==="" || playerName===null) {
+            playerName = window.prompt("What is your robot's name?");
+        }
+    }
+
     // Todo: Review; Debug; You can also log multiple values at once like this
     console.log("Debug: Your stats:")
     console.table({playerName, playerAttack, playerHealth});
-
-    // Ask for robot name
-    while(playerName==="" || playerName===null) {
-        playerName = window.prompt("What is your robot's name?");
-    }
 
     // Fight all enemy-robots
     for(let i=0; i<enemyNames.length; i++) {
