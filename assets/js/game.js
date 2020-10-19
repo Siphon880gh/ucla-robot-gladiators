@@ -14,6 +14,7 @@ while(playerName==="" || playerName===null) {
 }
 var playerHealth = 100;
 var playerAttack = 10;
+var playerMoney = 10;
 
 // Todo: Review; Debug; You can also log multiple values at once like this
 console.log("Debug: Your stats:")
@@ -27,17 +28,28 @@ var firstFight = true;
 
 var fight = function() {
 
-    /**
-     * Ask user: Fight or skip
-     * Returns 0 (skip), 1 (fight), or -1 (invalid response)
-     * 
-     *  */ 
+    // Ask user: Fight or skip
     function askUserFightOrSkip() {
         var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
         if(promptFight===null) promptFight = ""; // Force string data type so .toLowerCase() will not throw an error
 
+        // Player wants to skip battle
         if(promptFight.toLowerCase()==="skip") {
-            return "skip";
+            var confirmSkip = window.confirm("Are you sure you'd like to quit? This will cost $2.");
+            if(confirmSkip) {
+
+                // Check if player can afford the fee to skip battle */
+                if(playerMoney -2 < 0) {
+                    alert("You do not have enough to pay the toll. You must fight.");
+                    return "fight";
+                } else {
+                    playerMoney -= 2;
+                    console.log(`Your money is now $${playerMoney}`);
+                    return "skip";
+                }
+            } else {
+                // Else nothing, because the code continues to run, and the fight starts
+            }
         } else if(promptFight.toLowerCase()!=="fight") {
             window.alert("You need to choose a valid option. Try again!");
             return askUserFightOrSkip();
