@@ -14,6 +14,24 @@ class Robot {
 
 /** <<< Code above are notes */
 
+/**
+ * Math.random()
+ * Generate random number from min... x... max, where x is a whole number
+ * @param {*} min Lowest random number
+ * @param {*} max Highest random number
+ * 
+ * Mathematical Proof: 
+ * - Math.random() returns a value from 0 to 1 but never 1, so it can return 0.9999999 close to 1
+ * - If returned 0, then lowest random number will be 0. Add 1 to prevent this. 1 times min will be min, so lowest random number will be min.
+ * - If returned 0.999999, then highest random number will be max-1, but if you add 1, then the highest random number will be max because 1 times max is max.
+ * 
+ * TODO: Review; Math.random
+ * 
+ */
+var randomNumber = function(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+};
+
 var playerName = ""; // Will override with user input
 var playerHealth = oriPlayerHealth = 100; /* Original player health that we reset if player restarts the game */
 var playerAttack = 10;
@@ -52,7 +70,7 @@ var fight = function(enemyName, itrRobot) {
                     alert("You do not have enough to pay the toll. You must fight.");
                     return "fight";
                 } else {
-                    playerMoney -= 2;
+                    playerMoney = Math.max(0, playerMoney - 2);
                     console.log(`You skipped fighting ${enemyName}. Your money is now $${playerMoney}`);
                     return "skip";
                 }
@@ -78,12 +96,17 @@ var fight = function(enemyName, itrRobot) {
     }
 
     // Deduct HP points from attacks
-    const oriPlayerHealth = playerHealth;
-    const oriEnemyHealth = enemyHealth;
-    playerHealth -= enemyAttack;
-    enemyHealth -= playerAttack;
-    console.log(`${playerName} attacks ${enemyName}... enemy health points decreased ${oriEnemyHealth} --> ${enemyHealth}`);
-    console.log(`${enemyName} attacks ${playerName}... your health points decreased ${oriPlayerHealth} --> ${playerHealth}`);
+    const beforePlayerHealth = playerHealth;
+    const beforeEnemyHealth = enemyHealth;
+
+    var damage = randomNumber(playerAttack - 3, playerAttack); // Random attack point in the upper 3 point range
+    enemyHealth = Math.max(0, enemyHealth - damage);
+
+    var damage = randomNumber(enemyAttack - 3, enemyAttack);
+    playerHealth = Math.max(0, playerHealth - enemyAttack);
+    
+    console.log(`${playerName} attacks ${enemyName}... enemy health points decreased ${beforeEnemyHealth} --> ${enemyHealth}`);
+    console.log(`${enemyName} attacks ${playerName}... your health points decreased ${beforePlayerHealth} --> ${playerHealth}`);
 
     /** Check if anyone died
      * In designing the if statement:
@@ -132,7 +155,7 @@ function startGame() {
 
     // Todo: Review; Debug; You can also log multiple values at once like this
     console.log("Debug: Your stats:")
-    console.table({playerName, playerAttack, playerHealth});
+    console.table({playerName, playerAttack, playerHealth, playerMoney});
 
     // Fight all enemy-robots
     for(let i=0; i<enemyNames.length; i++) {
