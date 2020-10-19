@@ -1,3 +1,5 @@
+# Gestalt
+
 In this first lesson, we'll use JavaScript to code a single round of Robot Gladiators. When we're done, the game will follow this sequence:
 
 The game will prompt the player to name their robot.
@@ -25,6 +27,7 @@ We need to set up the files. Where do they go?
 How do we make the browser prompt a player to fight or skip?
 How do we store values in JavaScript, like health points and attack points?
 There must be a way to do math in JavaScript. How similar is it to real-life math?
+
 It's okay if you don't know the answers to these questions yet. Try searching the internet for some different approaches—this is something even experienced developers do every day!
 
 There are many ways to approach this project, but this is how we'll do it:
@@ -42,3 +45,43 @@ Make decisions using JavaScript conditions. For example, the game should allow a
 Allow the player to decide whether they would like to fight or skip the fight.
 
 Let's set up our project and get started!
+
+# Issues
+Title: Initial game functionality - MVP
+
+**Description**
+
+_Must Have_
+
+- Build a game where a player's robot can fight another robot until one of them loses.
+
+- If the enemy-robot loses first, the player's robot will move on to fight another enemy-robot.
+
+_Features_
+
+- The player's robot's name can be dynamically created by the player through the browser.
+
+- The player is given the option to skip the fight by paying a penalty fee, or continue with the fight.
+Title: Add shop functionality
+
+**Description**
+
+- After defeating an enemy, ask the player if they would like to purchase an item from a store.
+
+- The player can purchase health or attack points if they can afford it.
+Title: Add randomness to health and damage values
+
+**Description**
+
+- Start enemies at a random health value between 40 and 60.
+
+- Start enemies with a random attack value between 10 and 14.
+
+- Attack damage is random, using the robot's attack value as an upper limit (for example, if the player's attack is 10, their damage range is 7-10).
+Title: Restructure data with JS objects
+
+**Description**
+
+- Create and use JavaScript objects to organize data related to the player and data related to the enemies.
+
+- Create object methods to perform player actions.
