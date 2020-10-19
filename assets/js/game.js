@@ -26,6 +26,31 @@ var enemyAttack = 12;
 var firstFight = true;
 
 var fight = function() {
+
+    /**
+     * Ask user: Fight or skip
+     * Returns 0 (skip), 1 (fight), or -1 (invalid response)
+     * 
+     *  */ 
+    function askUserFightOrSkip() {
+        var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
+        if(promptFight===null) promptFight = ""; // Force string data type so .toLowerCase() will not throw an error
+
+        if(promptFight.toLowerCase()==="skip") {
+            return "skip";
+        } else if(promptFight.toLowerCase()!=="fight") {
+            window.alert("You need to choose a valid option. Try again!");
+            return askUserFightOrSkip();
+        }
+
+        return "fight";
+    } // askUserFightOrSkip
+
+    if(askUserFightOrSkip()==="skip") {
+
+        return;
+    }
+
     // Welcome message if first fight
     if(firstFight) {
         firstFight = false;
@@ -61,8 +86,8 @@ var fight = function() {
 fight();
 
 /* Battle until a robot reaches 0 hp */
-const roundTime = 200;
-const battling =  setInterval(()=>{
-    fight();
+// const roundTime = 200;
+// const battling =  setInterval(()=>{
+//     fight();
 
-}, roundTime);
+// }, roundTime);
