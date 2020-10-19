@@ -98,7 +98,15 @@ var fight = function(enemyName, itrRobot) {
             alert(gameOverMsg);
             return "lost";
         } else {
-            console.log(`Congrats! ${enemyName} died! Onto the next round...`);
+            var nextRoundVsShop = `Congrats! ${enemyName} died! Visit the store before the next round?`;
+            console.log(nextRoundVsShop);
+            var confirmStore = window.confirm(nextRoundVsShop);
+
+            // if yes, take them to the store() function
+            if (confirmStore) {
+              shop();
+            }
+
             return "won";
         }
     } else if(playerHealth * enemyHealth > 0) {
@@ -164,5 +172,50 @@ function endGame() {
 } // endGame
 
 function shop() {
+    // console.log("Entered shop");
+      // ask player what they'd like to do
+    var shopOptionPrompt = window.prompt(
+        "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one: 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice."
+    );
+    if(shopOptionPrompt===null || typeof shopOptionPrompt==="undefined") shopOptionPrompt = ""; // force data type to string
+    shopOptionPrompt = shopOptionPrompt.toLowerCase(); // make response all lowercase to simplify switch logic
 
-}
+    // use switch to carry out action
+    switch (shopOptionPrompt) {
+        case "refill":
+            if (playerMoney >= 7) {
+                window.alert("Refilling player's health by 20 for 7 dollars.");
+
+                // increase health and decrease money
+                playerHealth = playerHealth + 20;
+                playerMoney = playerMoney - 7;
+                console.log(`Your health is now at ${playerHealth}. Your money is now at $${playerMoney}`);
+            }
+            else {
+                window.alert("You don't have enough money!");
+            }
+
+            break;
+        case "upgrade":
+            if (playerMoney >= 7) {
+                window.alert("Upgrading player's attack by 6 for 7 dollars.");
+            
+               // increase attack and decrease money
+                playerAttack = playerAttack + 6;
+                playerMoney = playerMoney - 7;
+                console.log(`Your attack is now at ${playerAttack}. Your money is now at $${playerMoney}`);
+              }
+              else {
+                window.alert("You don't have enough money!");
+              }
+            break;
+        case "leave":
+            window.alert("Leaving the store.");
+            break;
+        default:
+            window.alert("You did not pick a valid option. Try again.");
+            // call shop() again to force player to pick a valid option
+            shop();
+            break;
+    } // switch
+} // shop
