@@ -6,27 +6,31 @@ class Robot {
     }
 } // Robot
 
+// Game States
+// "WIN" - Player robot has defeated all enemy-robots
+//          * Fight all enemy-robots (guess: probably a For loop through an array of enemy objects)
+//          * Defeat all enemy-robots (guess: probably when For loop reaches end and the player hasn't gamed over)
+// "LOSE" - Player robot's health is zero or less
+
 /** <<< Code above are notes */
 
 var playerName = "";
-while(playerName==="" || playerName===null) {
-    playerName = window.prompt("What is your robot's name?");
-}
-var playerHealth = 100;
+var playerHealth = 20;
 var playerAttack = 10;
 var playerMoney = 10;
 
-// Todo: Review; Debug; You can also log multiple values at once like this
-console.log("Debug: Your stats:")
-console.table({playerName, playerAttack, playerHealth});
-
-var enemyName = "Roborto";
+var enemyNames = ["Roborto", "Amy Android", "Robo Trumble"];
 var enemyHealth = 50;
 var enemyAttack = 12;
 
 var firstFight = true;
 
-var fight = function() {
+/**
+ * 
+ * Fight until player dies or killed all enemies
+ * @param {string} enemyName 
+ */
+var fight = function(enemyName) {
 
     // Ask user: Fight or skip
     function askUserFightOrSkip() {
@@ -79,24 +83,41 @@ var fight = function() {
 
     /** Check if anyone died
      * In designing the if statement:
-     * - If either robot dies, the product of both HP is 0
+     * - If either robot dies, the product of both HP is 0 or a negative number
      * - Alternately, could've used OR operator || 
      * */
-    if(playerHealth * enemyHealth===0) {
-        clearInterval(battling);
-        if(playerHealth===0) {
+    if(playerHealth * enemyHealth<=0) {
+        // clearInterval(battling);
+        if(playerHealth<=0) {
             const gameOver = `Game over. ${playerName} died!`;
             console.log(gameOver);
             alert(gameOver);
+            return 0;
         } else {
-
             console.log(`Congrats! ${enemyName} died! Onto the next round...`);
+            return 0;
         }
+    } else if(playerHealth * enemyHealth > 0) {
+        return fight(enemyName); // Recursively fight the same enemy until someone dies
     }
 };
 
-fight();
+function playerIsReady() {
+    // Todo: Review; Debug; You can also log multiple values at once like this
+    console.log("Debug: Your stats:")
+    console.table({playerName, playerAttack, playerHealth});
 
+    // Ask for robot name
+    while(playerName==="" || playerName===null) {
+        playerName = window.prompt("What is your robot's name?");
+    }
+
+    // Fight all enemy-robots
+    for(let i=0; i<enemyNames.length; i++) {
+        var enemyName = enemyNames[i];
+        fight(enemyName);
+    }
+}
 /* Battle until a robot reaches 0 hp */
 // const roundTime = 200;
 // const battling =  setInterval(()=>{
