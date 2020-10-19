@@ -29,7 +29,7 @@ var firstFight = true; // Say "Welcome" on the first fight ever
  * 
  * WHAT: Fights one enemy robot until player or enemy robot dies
  * HOW: If either player has HP remaining after a fight, call recursively until no HP remains
- * POINT OF COMPLEXITY: User can skip the fight by paying a fee.
+ * POINT OF COMPLEXITY: User can skip the robot by paying a fee.
  * @param {string} enemyName
  * 
  */
