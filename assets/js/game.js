@@ -77,12 +77,6 @@ var fight = function(enemyName, itrRobot) {
         return;
     }
 
-    // Welcome message if first fight
-    // if(firstFight) {
-    //     firstFight = false;
-    //     window.alert("Welcome to Robot Gladiators!");
-    // }
-
     // Deduct HP points from attacks
     const oriPlayerHealth = playerHealth;
     const oriEnemyHealth = enemyHealth;
@@ -137,7 +131,7 @@ function startGame() {
         var enemyName = enemyNames[i];
         enemyHealth = oriEnemyHealth;
 
-        // Call recursive function fight
+        // Call recursive function fight until either lost or win game
         if(fight(enemyName, i)==="lost") {
             break; // Already announced Game Over; Do not go on in the fighting for loop
         } else {
@@ -148,5 +142,27 @@ function startGame() {
                 alert(wonGameMsg);
             }
         }
+    } // for
+
+    endGame();
+
+} // startGame
+
+function endGame() {
+    // Show player summary
+    if(playerHealth>0) {
+        window.alert(`You now have $${playerMoney} left.`);
     }
+
+    // Ask if user wants to restart game
+    var confirmRestartGame = window.confirm("Would you like to play again?");
+    if(confirmRestartGame) {
+        startGame();
+    } else {
+        window.alert(`Thank you for playing Robot Gladiators! Come back soon!`);
+    }
+} // endGame
+
+function shop() {
+
 }
