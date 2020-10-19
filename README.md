@@ -4,4 +4,4 @@ Robot gladiators fight it out! UCLA coursework.
 
 About
 ---
-Work in progress. [Future game](https://siphon880gh.github.io/ucla-robot-gladiators/).
+Open up browser console. [And load the game](https://siphon880gh.github.io/ucla-robot-gladiators/).
