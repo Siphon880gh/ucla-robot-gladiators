@@ -14,22 +14,26 @@ class Robot {
 
 /** <<< Code above are notes */
 
-var playerName = "";
+var playerName = ""; // Will override with user input
 var playerHealth = 100;
 var playerAttack = 10;
 var playerMoney = 10;
 
-var enemyNames = ["Roborto", "Amy Android", "Robo Trumble"];
-var enemyHealth = 50;
+var enemyNames = ["Roborto (1st robot)", "Amy Android (2nd robot)", "Robo Trumble (3rd robot)"];
+var enemyHealth = oriEnemyHealth = 50; /* Original enemy health that we reset to after every robot */
 var enemyAttack = 12;
 
-var firstFight = true;
+var firstFight = true; // Say "Welcome" on the first fight ever
 
 /**
  * 
- * Fight until player dies or killed all enemies
- * @param {string} enemyName 
+ * WHAT: Fights one enemy robot until player or enemy robot dies
+ * HOW: If either player has HP remaining after a fight, call recursively until no HP remains
+ * POINT OF COMPLEXITY: User can skip the fight by paying a fee.
+ * @param {string} enemyName
+ * 
  */
+/* Todo: Review; jsDocs format for functions */
 var fight = function(enemyName) {
 
     // Ask user: Fight or skip
@@ -48,7 +52,7 @@ var fight = function(enemyName) {
                     return "fight";
                 } else {
                     playerMoney -= 2;
-                    console.log(`Your money is now $${playerMoney}`);
+                    console.log(`You skipped fighting ${enemyName}. Your money is now $${playerMoney}`);
                     return "skip";
                 }
             } else {
@@ -89,7 +93,7 @@ var fight = function(enemyName) {
     if(playerHealth * enemyHealth<=0) {
         // clearInterval(battling);
         if(playerHealth<=0) {
-            const gameOverMsg = `Game over. ${playerName} died!`;
+            const gameOverMsg = `Game over. Your robot ${playerName} died!`;
             console.log("%c" + gameOverMsg, "color:red; font-weight: bold;");
             alert(gameOverMsg);
             return "lost";
@@ -115,6 +119,7 @@ function playerIsReady() {
     // Fight all enemy-robots
     for(let i=0; i<enemyNames.length; i++) {
         var enemyName = enemyNames[i];
+        enemyHealth = oriEnemyHealth;
         if(fight(enemyName)==="lost") {
             break; // Already announced Game Over; Do not go on in the fighting for loop
         } else {
@@ -127,9 +132,3 @@ function playerIsReady() {
         }
     }
 }
-/* Battle until a robot reaches 0 hp */
-// const roundTime = 200;
-// const battling =  setInterval(()=>{
-//     fight();
-
-// }, roundTime);
