@@ -15,7 +15,7 @@ class Robot {
 /** <<< Code above are notes */
 
 var playerName = ""; // Will override with user input
-var playerHealth = 100;
+var playerHealth = 1000;
 var playerAttack = 10;
 var playerMoney = 10;
 
@@ -23,18 +23,19 @@ var enemyNames = ["Roborto (1st robot)", "Amy Android (2nd robot)", "Robo Trumbl
 var enemyHealth = oriEnemyHealth = 50; /* Original enemy health that we reset to after every robot */
 var enemyAttack = 12;
 
-var firstFight = true; // Say "Welcome" on the first fight ever
+// var firstFight = true; // Say "Welcome" on the first fight ever
 
 /**
- * 
  * WHAT: Fights one enemy robot until player or enemy robot dies
  * HOW: If either player has HP remaining after a fight, call recursively until no HP remains
  * POINT OF COMPLEXITY: User can skip the robot by paying a fee.
+ * POINT OF COMPLEXITY: Announces round number for each new robot
  * @param {string} enemyName
+ * @param {number} round #
  * 
  */
 /* Todo: Review; jsDocs format for functions */
-var fight = function(enemyName) {
+var fight = function(enemyName, itrRobot) {
 
     // Ask user: Fight or skip
     function askUserFightOrSkip() {
@@ -63,6 +64,11 @@ var fight = function(enemyName) {
             return askUserFightOrSkip();
         }
 
+        if(typeof itrRobot!=="undefined" && itrRobot!==-1) {
+            alert("Welcome to Robot Gladiators: Round " + (itrRobot + 1) + "!");
+            itrRobot = -1;
+        }
+
         return "fight";
     } // askUserFightOrSkip
 
@@ -72,10 +78,10 @@ var fight = function(enemyName) {
     }
 
     // Welcome message if first fight
-    if(firstFight) {
-        firstFight = false;
-        window.alert("Welcome to Robot Gladiators!");
-    }
+    // if(firstFight) {
+    //     firstFight = false;
+    //     window.alert("Welcome to Robot Gladiators!");
+    // }
 
     // Deduct HP points from attacks
     const oriPlayerHealth = playerHealth;
@@ -120,7 +126,9 @@ function playerIsReady() {
     for(let i=0; i<enemyNames.length; i++) {
         var enemyName = enemyNames[i];
         enemyHealth = oriEnemyHealth;
-        if(fight(enemyName)==="lost") {
+
+        // Call recursive function fight
+        if(fight(enemyName, i)==="lost") {
             break; // Already announced Game Over; Do not go on in the fighting for loop
         } else {
             if(i===enemyNames.length-1) {
