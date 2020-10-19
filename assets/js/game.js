@@ -15,7 +15,7 @@ class Robot {
 /** <<< Code above are notes */
 
 var playerName = "";
-var playerHealth = 20;
+var playerHealth = 100;
 var playerAttack = 10;
 var playerMoney = 10;
 
@@ -89,13 +89,13 @@ var fight = function(enemyName) {
     if(playerHealth * enemyHealth<=0) {
         // clearInterval(battling);
         if(playerHealth<=0) {
-            const gameOver = `Game over. ${playerName} died!`;
-            console.log(gameOver);
-            alert(gameOver);
-            return 0;
+            const gameOverMsg = `Game over. ${playerName} died!`;
+            console.log("%c" + gameOverMsg, "color:red; font-weight: bold;");
+            alert(gameOverMsg);
+            return "lost";
         } else {
             console.log(`Congrats! ${enemyName} died! Onto the next round...`);
-            return 0;
+            return "won";
         }
     } else if(playerHealth * enemyHealth > 0) {
         return fight(enemyName); // Recursively fight the same enemy until someone dies
@@ -115,7 +115,16 @@ function playerIsReady() {
     // Fight all enemy-robots
     for(let i=0; i<enemyNames.length; i++) {
         var enemyName = enemyNames[i];
-        fight(enemyName);
+        if(fight(enemyName)==="lost") {
+            break; // Already announced Game Over; Do not go on in the fighting for loop
+        } else {
+            if(i===enemyNames.length-1) {
+                // Won this round at the last robot
+                const wonGameMsg = `You won! ${playerName} defeated all enemy robots!`;
+                console.info("%c" + wonGameMsg, "color:green; font-weight: bold;");
+                alert(wonGameMsg);
+            }
+        }
     }
 }
 /* Battle until a robot reaches 0 hp */
